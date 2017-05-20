@@ -13,7 +13,7 @@ import com.ea.crud.dao.UserDAO;
 import com.ea.crud.dto.UserDto;
 import com.ea.crud.service.UserService;
 
-@Service
+@Service (value="userService")
 @Transactional
 public class UserServiceImpl implements UserService {
 	
@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void updatePassword(UserDto u, String newPassword) throws Exception {
-		UserDto dbU = userDAO.findById(u.getUsername());
+		UserDto dbU = userDAO.getByUsername(u.getUsername());
 		logger.debug("Got from DB "+dbU);
 		
 		if(!dbU.getPassword().equals(u.getPassword())){
@@ -42,8 +42,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto findById(String id) throws Exception {
-		return userDAO.findById(id);
+	public UserDto getByUsername(String id) throws Exception {
+		return userDAO.getByUsername(id);
 	}
 	
 	@Override
@@ -52,8 +52,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserDto> findAllOrderById() throws Exception {
-		return userDAO.findAllOrderById();
+	public List<UserDto> getAllUsers() throws Exception {
+		return userDAO.getAllUsers();
 	}
 
 	@Override

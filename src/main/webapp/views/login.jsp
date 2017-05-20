@@ -18,7 +18,7 @@
 
 <body>
 	<div id=container>
-		<h1>Welcome, Please Login</h1>
+		<h1>Welcome, Please Login: ${fn:substring(url, 0, fn:length(url) - fn:length(uri))}${req.contextPath}/</h1>
 	
 		<form action="<c:url value='j_spring_security_check' />" method="POST">
 			<table>

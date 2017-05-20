@@ -20,7 +20,14 @@ public class UserDto implements Serializable, UserDetails {
 	private String password;
 	private List<RoleDto> roles;
 
-	public UserDto() {}
+	public UserDto() {
+		roles = new ArrayList<RoleDto>();
+	}
+	public UserDto(String u, String p) {
+		this();
+		username = u;
+		password = p;
+	}
 	public void setUsername(String username) {
 		this.username = username;
 	}
@@ -34,6 +41,9 @@ public class UserDto implements Serializable, UserDetails {
 		List<RoleDto> r = new ArrayList<RoleDto>();
 		r.addAll(roles);
 		return r;
+	}
+	public void addRole(RoleDto r) {
+		roles.add(r);
 	}
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

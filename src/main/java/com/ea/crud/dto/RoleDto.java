@@ -12,28 +12,29 @@ public class RoleDto implements Serializable, GrantedAuthority {
 
 	private static final long serialVersionUID = 2754769147166111640L;
 	public static final String ROLE_ADMIN = "ROLE_ADMIN";
-	public static final String ROLE_READ = "ROLE_USER";
+	public static final String ROLE_USER = "ROLE_USER";
+	public static final String ROLE_READONLY = "ROLE_USER";
 	
-    private String id;
+    private String name;
     private String description;
     
     public RoleDto(){
     }
     
-    public RoleDto(String id){
-    	this.id=id;
+    public RoleDto(String name){
+    	this.name=name;
     }
     
     public String getAuthority() {
-        return id;
+        return name;
     }
 
-    public String getId() {
-		return id;
+	public String getName() {
+		return name;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getDescription() {
@@ -49,17 +50,17 @@ public class RoleDto implements Serializable, GrantedAuthority {
             return false;
         RoleDto castOther = (RoleDto) other;
         return new EqualsBuilder()
-        		.append(id, castOther.id).isEquals();
+        		.append(name, castOther.name).isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder()
-        		.append(id).toHashCode();
+        		.append(name).toHashCode();
     }
 
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).appendSuper(super.toString())
-        	.append("id", id)
+        	.append("name", name)
         	.append("description", description)
         	.toString();
     }

@@ -4,9 +4,13 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 
+import com.ea.crud.dto.RoleDto;
 import com.ea.crud.dto.UserDto;
 
 public class UserServiceTest extends AbstractSpringTest{
@@ -15,12 +19,32 @@ public class UserServiceTest extends AbstractSpringTest{
     
 	@Autowired
 	UserService userService;
+	@Autowired
+	RoleService roleService;
+	
+	@Before
+	public void init() throws Exception{
+		roleService.insert(new RoleDto(RoleDto.ROLE_ADMIN));
+		roleService.insert(new RoleDto(RoleDto.ROLE_USER));
+	}
+	@After
+	public void after() throws Exception{
+		List<UserDto> listUsers = userService.getAllUsers();
+		for (UserDto dto : listUsers) {
+			userService.delete(dto);
+		}
+		
+		List<RoleDto> list = roleService.getAllRoles();
+		for (RoleDto dto : list) {
+			roleService.delete(dto);
+		}
+	}
 	
 	/**
-	 * A CRUD test: Insert, read, update, delete
+	 * A CRUD test USER: Insert, read, update, delete
 	 */
 	@Test
-    public void testCRUD() throws Exception{
+    public void HP_crud() throws Exception{
     	String u = "ermal";
     	String p = "aliraj";
     	
@@ -34,7 +58,7 @@ public class UserServiceTest extends AbstractSpringTest{
 		logger.debug("after inserted userDto: "+user);
 		
 		// 2. Get
-		UserDto dbUser = userService.findById(user.getUsername());
+		UserDto dbUser = userService.getByUsername(user.getUsername());
 		logger.debug("User got from DB: "+dbUser);
 		assertNotNull(dbUser);
 		assertEquals(user.getUsername(), dbUser.getUsername());
@@ -43,7 +67,7 @@ public class UserServiceTest extends AbstractSpringTest{
 		userService.updatePassword(dbUser, "newpwd");
 		logger.debug("Password updated");
 		
-		UserDto userUpdated = userService.findById(dbUser.getUsername());
+		UserDto userUpdated = userService.getByUsername(dbUser.getUsername());
 		
 		logger.debug("User got from DB (pwd updated):"+userUpdated);
 		assertNotNull(userUpdated);
@@ -51,10 +75,36 @@ public class UserServiceTest extends AbstractSpringTest{
 		
 		// 4. delete
 		userService.delete(userUpdated);
-		UserDto deletedUser = userService.findById(userUpdated.getUsername());
+		UserDto deletedUser = userService.getByUsername(userUpdated.getUsername());
 		assertNull(deletedUser); 
 	}
+	
+	@Test
+    public void HP_userRoles() throws Exception{
+    	UserDto user = new UserDto("ermalu", "ermalp");
+    	user.addRole(new RoleDto(RoleDto.ROLE_ADMIN));
+    	user.addRole(new RoleDto(RoleDto.ROLE_USER));
+    	logger.debug("before inserting userDto: "+user);
+    	
+    	// 1. Insert
+		userService.createUser(user);
+		logger.debug("after inserted userDto: "+user);
+		
+		// 2. Get
+		UserDto dbUser = userService.getByUsername(user.getUsername());
+		logger.debug("User got from DB: "+dbUser);
+		assertNotNull(dbUser.getRoles());
+		assertEquals(2, dbUser.getRoles().size());
+	}
     
+	@Test(expected=DataIntegrityViolationException.class)
+    public void EX_sameRomeForUser() throws Exception{
+    	UserDto user = new UserDto("ermalu", "ermalp");
+    	user.addRole(new RoleDto(RoleDto.ROLE_ADMIN));
+    	user.addRole(new RoleDto(RoleDto.ROLE_ADMIN));
+    	userService.createUser(user);
+	}
+	
     /**
      * Insert three users. 
      * Get the list of users, print it and check if has exactly 3 elements.
@@ -76,7 +126,7 @@ public class UserServiceTest extends AbstractSpringTest{
     	c.setPassword("c1");
     	userService.createUser(c);
 		
-    	List<UserDto> list = userService.findAllOrderById();
+    	List<UserDto> list = userService.getAllUsers();
     	
     	assertTrue(list.size() > 1); // since data are persisted in DB
     	assertEquals(list.size(), 3); 

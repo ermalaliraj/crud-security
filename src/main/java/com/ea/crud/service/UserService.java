@@ -11,7 +11,7 @@ public interface UserService extends UserDetailsService {
 
 	public UserDetails loadUserByUsername(String userName);
 	
-	public UserDto findById(String id) throws Exception;
+	public UserDto getByUsername(String userName) throws Exception;
 	
 	public void createUser(UserDto u) throws Exception;
 
@@ -21,6 +21,6 @@ public interface UserService extends UserDetailsService {
 	
 	void delete(UserDto u) throws Exception;
 
-	public List<UserDto> findAllOrderById() throws Exception;
+	public List<UserDto> getAllUsers() throws Exception;
 	
 }

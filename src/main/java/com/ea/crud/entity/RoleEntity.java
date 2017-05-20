@@ -1,13 +1,12 @@
 package com.ea.crud.entity;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -23,32 +22,38 @@ public class RoleEntity implements Serializable, GrantedAuthority {
 	public static final String ROLE_READ = "ROLE_USER";
 	
 	@Id
-	@GeneratedValue
-    private String id;
+    private String name;
     private String description;
     
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="USER_ID")
-    UserEntity user;
+    @ManyToMany
+    private List<UserEntity> users = new LinkedList<UserEntity>();
     
     public RoleEntity(){
     }
     
-    public RoleEntity(String id){
-    	this.id=id;
+    public RoleEntity(String name){
+    	this.name=name;
     }
     
-    public String getAuthority() {
-        return id;
+    public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<UserEntity> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<UserEntity> users) {
+		this.users = users;
+	}
+
+	public String getAuthority() {
+        return name;
     }
-
-    public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getDescription() {
         return description;
@@ -62,16 +67,16 @@ public class RoleEntity implements Serializable, GrantedAuthority {
         if (!(other instanceof RoleEntity))
             return false;
         RoleEntity castOther = (RoleEntity) other;
-        return new EqualsBuilder().append(id, castOther.id).isEquals();
+        return new EqualsBuilder().append(name, castOther.name).isEquals();
     }
 
     public int hashCode() {
-        return new HashCodeBuilder().append(id).toHashCode();
+        return new HashCodeBuilder().append(name).toHashCode();
     }
 
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).appendSuper(super.toString())
-        	.append("id", id)
+        	.append("name", name)
         	.append("description", description)
         	.toString();
     }

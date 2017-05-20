@@ -14,10 +14,9 @@ public interface UserDAO {
 
 	void delete(UserDto user) throws Exception;
 
-	UserDto findById(String username) throws Exception;
-
-	List<UserDto> findAllOrderById() throws Exception;
-
+	UserDto getByUsername(String username) throws Exception;
 	UserDetails loadUserByUsername(String username);
+	
+	List<UserDto> getAllUsers() throws Exception;
 
 }

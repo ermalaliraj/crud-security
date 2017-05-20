@@ -8,14 +8,13 @@
 
 	<context:component-scan base-package="com.ea" />
 	<context:annotation-config />
-	<mvc:annotation-driven />
 	
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/views/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
 
-	<mvc:resources mapping="/static/**" location="/" />
+	<mvc:resources mapping="/resources/**" location="classpath:/resources" />
 	
 	<bean id="dataSource" destroy-method="close" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="org.h2.Driver" />

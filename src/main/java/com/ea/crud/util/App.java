@@ -16,7 +16,7 @@ public class App {
 		UserService userService = (UserService) appContext.getBean("userService");
 
 		try {
-			userService.findById("fsfs");
+			userService.getByUsername("fsfs");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

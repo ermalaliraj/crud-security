@@ -121,7 +121,7 @@ public class UserController {
 	public ModelAndView addUser(@ModelAttribute("command") UserDto user, BindingResult result) {
 		Map<String, Object> model = new HashMap<String, Object>();
 		try {
-			List<UserDto> list = userService.findAllOrderById();
+			List<UserDto> list = userService.getAllUsers();
 			model.put("users", list);
 		} catch (Exception e) {
 			logger.error("Error in addUser", e);
@@ -136,7 +136,7 @@ public class UserController {
 			logger.debug("Going to delete user:" + user);
 			userService.delete(user);
 			model.put("user", null);
-			model.put("users", userService.findAllOrderById());
+			model.put("users", userService.getAllUsers());
 		} catch (Exception e) {
 			logger.error("Error in deleteEmployee", e);
 		}
@@ -147,7 +147,7 @@ public class UserController {
 	public ModelAndView listUsers() {
 		ModelAndView mv = new ModelAndView("usersList");
 		try {
-			List<UserDto> list = userService.findAllOrderById();
+			List<UserDto> list = userService.getAllUsers();
 			mv.addObject("users", list);
 		} catch (Exception e) {
 			logger.error("Error in listUsers", e);

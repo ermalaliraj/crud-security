@@ -4,8 +4,9 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -20,8 +21,9 @@ public class UserEntity{
 	private String username;
 	private String password;
 	
-	@OneToMany(mappedBy="user")
-	List<RoleEntity> roles;
+	//@OneToMany(mappedBy="user")
+	@ManyToMany(fetch=FetchType.EAGER)
+	private List<RoleEntity> roles;
 	
 	public String getUsername() {
 		return username;

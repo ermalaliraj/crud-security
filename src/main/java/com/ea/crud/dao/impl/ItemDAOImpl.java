@@ -14,7 +14,6 @@ import com.ea.crud.dto.ItemDto;
 import com.ea.crud.entity.ItemEntity;
 
 @Repository
-@Transactional
 public class ItemDAOImpl extends GenericDAO implements ItemDAO {
 
 	protected static final transient Log logger = LogFactory.getLog(ItemDAOImpl.class);
