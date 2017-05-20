@@ -13,7 +13,7 @@ public class RoleDto implements Serializable, GrantedAuthority {
 	private static final long serialVersionUID = 2754769147166111640L;
 	public static final String ROLE_ADMIN = "ROLE_ADMIN";
 	public static final String ROLE_USER = "ROLE_USER";
-	public static final String ROLE_READONLY = "ROLE_USER";
+	public static final String ROLE_READONLY = "ROLE_READONLY";
 	
     private String name;
     private String description;
@@ -58,11 +58,15 @@ public class RoleDto implements Serializable, GrantedAuthority {
         		.append(name).toHashCode();
     }
 
-    public String toString() {
+    public String toStringFull() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).appendSuper(super.toString())
         	.append("name", name)
         	.append("description", description)
         	.toString();
+    }
+    
+    public String toString() {
+        return name;
     }
 
 }

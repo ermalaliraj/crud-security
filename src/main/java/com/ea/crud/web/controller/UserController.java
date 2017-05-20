@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 //import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ea.crud.dto.RoleDto;
 import com.ea.crud.dto.UserDto;
 import com.ea.crud.service.UserService;
 
@@ -77,27 +79,25 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/registerNew")
-	public ModelAndView registerNewUser(@RequestParam("email") String email, @RequestParam("password") String password,
+	public ModelAndView registerNewUser(@RequestParam("email") String username, @RequestParam("password") String password,
 			HttpSession session) {
 
 		UserDto u = new UserDto();
-		u.setUsername(email);
+		u.setUsername(username);
 		u.setPassword(password);
+		u.addRole(new RoleDto(RoleDto.ROLE_ADMIN));
 		try {
 			userService.createUser(u);
+			
+			// Place the new Authentication object in the security context.
+			UsernamePasswordAuthenticationToken authToken = 
+				  new UsernamePasswordAuthenticationToken(username, password, u.getAuthorities());
+			SecurityContextHolder.getContext().setAuthentication(authToken);
+			
+		    saveLoggedUserSession(session);
 		} catch (Exception e) {
 			logger.error("Error in registerNewUser", e);
 		}
-
-		// //after registering the user, create the role to login with spring
-		// Collection<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
-		// roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-		// // Place the new Authentication object in the security context.
-		// UsernamePasswordAuthenticationToken usernameAndPassword =
-		// new UsernamePasswordAuthenticationToken(email, password, roles);
-		// SecurityContextHolder.getContext().setAuthentication(usernameAndPassword);
-
-		saveLoggedUserSession(session);
 		return new ModelAndView("home");
 	}
 
