@@ -20,10 +20,11 @@ public class RoleServiceTest extends AbstractSpringTest{
 	
 	@After
 	public void init() throws Exception{
-		List<RoleDto> list = roleService.getAllRoles();
-		for (RoleDto dto : list) {
-			roleService.delete(dto);
-		}
+		roleService.deleteAllRoles();
+//		List<RoleDto> list = roleService.getAllRoles();
+//		for (RoleDto dto : list) {
+//			roleService.delete(dto);
+//		}
 	}
 	
 	@Test
@@ -47,8 +48,7 @@ public class RoleServiceTest extends AbstractSpringTest{
 		assertNotNull(list);
 		assertEquals(2,  list.size());
 		
-		roleService.delete( new RoleDto(RoleDto.ROLE_ADMIN));
-		roleService.delete( new RoleDto(RoleDto.ROLE_USER));
+		roleService.deleteAllRoles();
 		
 		list = roleService.getAllRoles();
 		logger.debug("All DTOs from DB: "+list);

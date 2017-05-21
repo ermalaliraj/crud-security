@@ -19,7 +19,7 @@
 <body>	
 	<div id=container>
 		<div class="dualbrand">
-			Email: ${sessionScope.userName}
+			User: ${sessionScope.userName}
 			Role: ${sessionScope.role}
 		</div>
 		<h1>Add User Data</h1>
@@ -27,8 +27,8 @@
 		<form:form method="POST" action="save.html">
 	   		<table>
 			    <tr>
-			        <td><form:label path="email">Email:</form:label></td>
-			        <td><form:input path="email" value="${user.email}"/></td>
+			        <td><form:label path="username">Username:</form:label></td>
+			        <td><form:input path="username" value="${user.username}"/></td>
 			    	<td>&nbsp;</td>
 			        <td><form:label path="password">Password:</form:label></td>
 			        <td><form:input path="password" value="${user.password}"/></td>
@@ -46,14 +46,14 @@
 			<table class="simpletablestyle">
 				<tr>
 					<th>ID</th>
-					<th>Email</th>
+					<th>Username</th>
 					<th>Password</th>
 				</tr>
 			
 				<c:forEach items="${users}" var="user">
 					<tr>
 						<td><c:out value="${user.id}"/></td>
-						<td><c:out value="${user.email}"/></td>
+						<td><c:out value="${user.username}"/></td>
 						<td><c:out value="${user.password}"/></td>
 						<td align="center"><a href="edit.html?id=${user.id}">Edit</a> | <a href="delete.html?id=${user.id}">Delete</a></td>
 					</tr>

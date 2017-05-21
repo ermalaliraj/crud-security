@@ -23,8 +23,8 @@
 <form method="POST" action="registerNew">
 <table>
 	<tr>
-		<td>Email:</td>
-        <td><input name="email" /></td>
+		<td>Username:</td>
+        <td><input name="username" /></td>
 	</tr>
 	<tr>
 		<td>Password:</td>

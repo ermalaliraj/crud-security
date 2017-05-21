@@ -8,12 +8,16 @@ import com.ea.crud.dto.UserDto;
 
 public interface UserDAO {
 
-	void createUser(UserDto user) throws Exception;
+	UserDto createUser(UserDto user) throws Exception;
 	
 	void updateUser(UserDto user) throws Exception;
 
-	void delete(UserDto user) throws Exception;
+	void deleteById(Long id) throws Exception;
+	
+	void deleteByUsername(String username) throws Exception;
 
+	UserDto getById(Long id) throws Exception;
+	
 	UserDto getByUsername(String username) throws Exception;
 	UserDetails loadUserByUsername(String username);
 	

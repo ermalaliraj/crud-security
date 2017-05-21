@@ -20,8 +20,8 @@ public class RoleDto implements Serializable, GrantedAuthority {
     
     public RoleDto(){
     }
-    
-    public RoleDto(String name){
+
+	public RoleDto(String name){
     	this.name=name;
     }
     
@@ -50,17 +50,19 @@ public class RoleDto implements Serializable, GrantedAuthority {
             return false;
         RoleDto castOther = (RoleDto) other;
         return new EqualsBuilder()
-        		.append(name, castOther.name).isEquals();
+        		.append(name, castOther.name)
+        		.isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder()
-        		.append(name).toHashCode();
+        		.append(name)
+        		.toHashCode();
     }
 
     public String toStringFull() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).appendSuper(super.toString())
-        	.append("name", name)
+    		.append("name", name)
         	.append("description", description)
         	.toString();
     }

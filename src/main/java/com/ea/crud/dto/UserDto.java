@@ -16,9 +16,11 @@ public class UserDto implements Serializable, UserDetails {
 
 	private static final long serialVersionUID = -8472447620112441018L;
 
+	private Long id;
 	private String username;
 	private String password;
 	private List<RoleDto> roles;
+	private boolean enabled;
 
 	public UserDto() {
 		roles = new ArrayList<RoleDto>();
@@ -27,6 +29,9 @@ public class UserDto implements Serializable, UserDetails {
 		this();
 		username = u;
 		password = p;
+	}
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 	public void setUsername(String username) {
 		this.username = username;
@@ -76,33 +81,43 @@ public class UserDto implements Serializable, UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return enabled;
 	}
 	@Override
 	public String getPassword() {
 		return password;
 	}
-
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public boolean equals(final Object other) {
         if (!(other instanceof UserDto))
             return false;
         UserDto credit = (UserDto) other;
       
         return new EqualsBuilder()
+        		.append(id, credit.id)
         		.append(username, credit.username)
         		.isEquals();
     }
     public int hashCode() {
         return new HashCodeBuilder()
+        		.append(id)
         		.append(username)
         		.toHashCode();
     }
 	public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
         	.appendSuper(super.toString())
+        	.append("id", id)
         	.append("username", username)
         	.append("password", password)
         	.append("roles ", roles)
+        	.append("enabled", enabled)
         	.toString();
     }
 

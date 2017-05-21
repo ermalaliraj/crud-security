@@ -22,10 +22,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 	"file:src/main/resources/spring-security.xml"})
 abstract public class AbstractContextSecurityTest {
 
-	protected void login(String email, String password, String roleName) {
+	protected void login(String username, String password, String roleName) {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		authorities.add(new SimpleGrantedAuthority(roleName));
-		Authentication authToken = new UsernamePasswordAuthenticationToken (email, password, authorities);
+		Authentication authToken = new UsernamePasswordAuthenticationToken (username, password, authorities);
 		SecurityContextHolder.getContext().setAuthentication(authToken);
 	}
 	

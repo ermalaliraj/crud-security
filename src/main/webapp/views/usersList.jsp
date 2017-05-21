@@ -29,14 +29,14 @@
 		<table class="simpletablestyle">
 			<tr>
 				<th>User ID</th>
-				<th>Email</th>
+				<th>Username</th>
 				<th>password</th>
 			</tr>
 	
 			<c:forEach items="${users}" var="user">
 				<tr>
 					<td><c:out value="${user.id}"/></td>
-					<td><c:out value="${user.email}"/></td>
+					<td><c:out value="${user.username}"/></td>
 					<td><c:out value="${user.password}"/></td>
 				</tr>
 			</c:forEach>

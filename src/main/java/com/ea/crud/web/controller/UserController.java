@@ -79,7 +79,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/registerNew")
-	public ModelAndView registerNewUser(@RequestParam("email") String username, @RequestParam("password") String password,
+	public ModelAndView registerNewUser(@RequestParam("username") String username, @RequestParam("password") String password,
 			HttpSession session) {
 
 		UserDto u = new UserDto();
@@ -134,7 +134,7 @@ public class UserController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		try {
 			logger.debug("Going to delete user:" + user);
-			userService.delete(user);
+			userService.deleteById(user.getId());
 			model.put("user", null);
 			model.put("users", userService.getAllUsers());
 		} catch (Exception e) {
@@ -168,7 +168,7 @@ public class UserController {
 	public ModelAndView deleteUser() {
 		try {
 			UserDto u = new UserDto();
-			userService.delete(u);
+			userService.deleteById(u.getId());
 		} catch (Exception e) {
 			logger.error("Error in deleteUser", e);
 		}

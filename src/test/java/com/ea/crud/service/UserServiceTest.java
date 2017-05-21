@@ -31,13 +31,10 @@ public class UserServiceTest extends AbstractSpringTest{
 	public void after() throws Exception{
 		List<UserDto> listUsers = userService.getAllUsers();
 		for (UserDto dto : listUsers) {
-			userService.delete(dto);
+			userService.deleteById(dto.getId());
 		}
 		
-		List<RoleDto> list = roleService.getAllRoles();
-		for (RoleDto dto : list) {
-			roleService.delete(dto);
-		}
+		roleService.deleteAllRoles();
 	}
 	
 	/**
@@ -48,13 +45,11 @@ public class UserServiceTest extends AbstractSpringTest{
     	String u = "ermal";
     	String p = "aliraj";
     	
-    	UserDto user = new UserDto();
-    	user.setUsername(u);
-    	user.setPassword(p);
+    	UserDto user = new UserDto(u, p);
     	logger.debug("before inserting userDto: "+user);
     	
     	// 1. Insert
-		userService.createUser(user);
+		user = userService.createUser(user);
 		logger.debug("after inserted userDto: "+user);
 		
 		// 2. Get
@@ -74,7 +69,7 @@ public class UserServiceTest extends AbstractSpringTest{
 		assertEquals(userUpdated.getPassword(), "newpwd");
 		
 		// 4. delete
-		userService.delete(userUpdated);
+		userService.deleteById(userUpdated.getId());
 		UserDto deletedUser = userService.getByUsername(userUpdated.getUsername());
 		assertNull(deletedUser); 
 	}

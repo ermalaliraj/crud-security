@@ -22,7 +22,7 @@ public class RoleEntity implements Serializable, GrantedAuthority {
 	public static final String ROLE_READ = "ROLE_USER";
 	
 	@Id
-    private String name;
+	private String name;
     private String description;
     
     @ManyToMany
@@ -31,7 +31,7 @@ public class RoleEntity implements Serializable, GrantedAuthority {
     public RoleEntity(){
     }
     
-    public RoleEntity(String name){
+	public RoleEntity(String name){
     	this.name=name;
     }
     
@@ -76,7 +76,7 @@ public class RoleEntity implements Serializable, GrantedAuthority {
 
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).appendSuper(super.toString())
-        	.append("name", name)
+    		.append("name", name)
         	.append("description", description)
         	.toString();
     }

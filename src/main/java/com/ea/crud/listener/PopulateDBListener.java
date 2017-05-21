@@ -44,10 +44,7 @@ public class PopulateDBListener implements ServletContextListener {
     }
 
 	public void emptyRoleTable() throws Exception{
-		List<RoleDto> list = roleService.getAllRoles();
-		for (RoleDto dto : list) {
-			roleService.delete(dto);
-		}
+		roleService.deleteAllRoles();
 	}
 
     public void contextDestroyed(ServletContextEvent servletContextEvent) {

@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService {
 	private UserDAO userDAO;
 	
 	@Override
-	public void createUser(UserDto u) throws Exception {
-		userDAO.createUser(u);
+	public UserDto createUser(UserDto u) throws Exception {
+		return userDAO.createUser(u);
 	}
 
 	@Override
@@ -47,10 +47,15 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void delete(UserDto u) throws Exception {
-		userDAO.delete(u);
+	public void deleteById(Long id) throws Exception {
+		userDAO.deleteById(id);
 	}
 
+	@Override
+	public void deleteByUsername(String username) throws Exception {
+		userDAO.deleteByUsername(username);
+	}
+	
 	@Override
 	public List<UserDto> getAllUsers() throws Exception {
 		return userDAO.getAllUsers();
