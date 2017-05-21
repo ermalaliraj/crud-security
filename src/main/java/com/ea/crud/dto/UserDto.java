@@ -23,6 +23,7 @@ public class UserDto implements Serializable, UserDetails {
 	private boolean enabled;
 
 	public UserDto() {
+		enabled = true;
 		roles = new ArrayList<RoleDto>();
 	}
 	public UserDto(String u, String p) {

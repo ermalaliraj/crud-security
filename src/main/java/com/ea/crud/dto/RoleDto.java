@@ -12,6 +12,7 @@ public class RoleDto implements Serializable, GrantedAuthority {
 
 	private static final long serialVersionUID = 2754769147166111640L;
 	public static final String ROLE_ADMIN = "ROLE_ADMIN";
+	public static final String ROLE_PUBLISHER = "ROLE_PUBLISHER";
 	public static final String ROLE_USER = "ROLE_USER";
 	public static final String ROLE_READONLY = "ROLE_READONLY";
 	

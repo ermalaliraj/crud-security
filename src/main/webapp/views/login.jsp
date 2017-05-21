@@ -57,5 +57,26 @@
 			</table>
 		</form>
 	</div>
+	
+	<div id=container>
+		<c:if test="${!empty users}">
+			<h2>List Users</h2>
+			<table class="simpletablestyle">
+				<tr>
+					<th>Username</th>
+					<th>Roles Assocciated</th>
+					<th>Description</th>
+				</tr>
+			
+				<c:forEach items="${users}" var="item">
+					<tr>
+						<td><c:out value="${item.username}"/></td>
+						<td><c:out value="${item.roles}"/></td>
+						<td>desc</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</c:if>
+	</div>
 </body>
 </html>

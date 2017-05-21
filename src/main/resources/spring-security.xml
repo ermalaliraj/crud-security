@@ -22,16 +22,13 @@
 
 	<authentication-manager alias="authenticationManager">
  		<authentication-provider user-service-ref='userService'>
-			<!-- <user-service>
+ 			<!-- <password-encoder ref="passwordEncoder" /> -->
+<!-- 			<user-service>
 				<user name="ermalu" password="ermalu" authorities="ROLE_USER" />
 				<user name="ermala" password="ermala" authorities="ROLE_ADMIN" />
 			</user-service> -->
 		</authentication-provider> 
-		<!--*** UserService do not implement UserDetailsService.loadUserByUsername() 
-		hardcoding user/pwd ***
-		<authentication-provider user-service-ref='userService'>
-		</authentication-provider>
-		-->
 	</authentication-manager>
 
+	<beans:bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" />
 </beans:beans>

@@ -56,11 +56,16 @@ public class UserController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView getLoginPage(@RequestParam(value = "error", required = false) boolean error) {
 		Map<String, Object> model = new HashMap<String, Object>();
+		try {
+			if (error == true) {
+				model.put("error", "Bad Credentials");
+			} else {
+				model.put("error", "");
+			}
 
-		if (error == true) {
-			model.put("error", "Bad Credentials");
-		} else {
-			model.put("error", "");
+			model.put("users", userService.getAllUsers());
+		} catch (Exception e) {
+			logger.error("Error in getLoginPage", e);
 		}
 		return new ModelAndView("login", model);
 	}
@@ -79,8 +84,8 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/registerNew")
-	public ModelAndView registerNewUser(@RequestParam("username") String username, @RequestParam("password") String password,
-			HttpSession session) {
+	public ModelAndView registerNewUser(@RequestParam("username") String username,
+			@RequestParam("password") String password, HttpSession session) {
 
 		UserDto u = new UserDto();
 		u.setUsername(username);
@@ -88,13 +93,13 @@ public class UserController {
 		u.addRole(new RoleDto(RoleDto.ROLE_ADMIN));
 		try {
 			userService.createUser(u);
-			
+
 			// Place the new Authentication object in the security context.
-			UsernamePasswordAuthenticationToken authToken = 
-				  new UsernamePasswordAuthenticationToken(username, password, u.getAuthorities());
+			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password,
+					u.getAuthorities());
 			SecurityContextHolder.getContext().setAuthentication(authToken);
-			
-		    saveLoggedUserSession(session);
+
+			saveLoggedUserSession(session);
 		} catch (Exception e) {
 			logger.error("Error in registerNewUser", e);
 		}
@@ -148,6 +153,7 @@ public class UserController {
 		ModelAndView mv = new ModelAndView("usersList");
 		try {
 			List<UserDto> list = userService.getAllUsers();
+			logger.debug("all users: "+list);
 			mv.addObject("users", list);
 		} catch (Exception e) {
 			logger.error("Error in listUsers", e);
@@ -184,9 +190,9 @@ public class UserController {
 
 	private void saveLoggedUserSession(HttpSession session) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if(auth != null){
-			session.setAttribute("userName" , auth.getName());
-			session.setAttribute("role" , auth.getAuthorities());
+		if (auth != null) {
+			session.setAttribute("userName", auth.getName());
+			session.setAttribute("role", auth.getAuthorities());
 		} else {
 			logger.error("NO SPRING SECURITY found!");
 		}
