@@ -1,43 +1,33 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
-    xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:component-scan base-package="com.ea" />
-	<context:annotation-config />
-	
-	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<mvc:annotation-driven />
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/views/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
 
-	<mvc:resources mapping="/resources/**" location="classpath:/resources" />
-	
-	<bean id="dataSource" destroy-method="close" class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="driverClassName" value="org.h2.Driver" />
-		<property name="url" value="jdbc:h2:mem:alm;MODE=Oracle;DB_CLOSE_DELAY=-1" />
-		<property name="username" value="sa" />
-		<property name="password" value="" />
+	<mvc:resources mapping="/static/**" location="/" />
+
+	<mvc:default-servlet-handler />
+
+	<mvc:view-controller path="/login" view-name="login" />
+	<mvc:view-controller path="/register" view-name="register" />
+
+	<bean name="/user.htm" class="com.ea.crud.web.controller.UserController">
+		<property name="userService" ref="userService" />
 	</bean>
 
-	<bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-		<property name="showSql" value="false" />
-		<property name="generateDdl" value="true" />
-		<property name="databasePlatform" value="org.hibernate.dialect.H2Dialect" />
+	<bean name="/item.htm" class="com.ea.crud.web.controller.ItemController">
+		<property name="itemService" ref="itemService" />
+		<property name="userService" ref="userService" />
 	</bean>
 
-	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="persistenceUnitName" value="crudEM" />
-		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
-		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"/>
-	</bean>
-
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" />
-
-	<tx:annotation-driven transaction-manager="transactionManager" />
-	
 </beans>

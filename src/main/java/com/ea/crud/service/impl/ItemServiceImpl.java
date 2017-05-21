@@ -12,7 +12,7 @@ import com.ea.crud.dao.ItemDAO;
 import com.ea.crud.dto.ItemDto;
 import com.ea.crud.service.ItemService;
 
-@Service
+@Service (value="itemService")
 @Transactional
 public class ItemServiceImpl implements ItemService {
 	

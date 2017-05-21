@@ -12,7 +12,7 @@ import com.ea.crud.dao.RoleDAO;
 import com.ea.crud.dto.RoleDto;
 import com.ea.crud.service.RoleService;
 
-@Service
+@Service (value="roleService")
 @Transactional
 public class RoleServiceImpl implements RoleService {
 	
