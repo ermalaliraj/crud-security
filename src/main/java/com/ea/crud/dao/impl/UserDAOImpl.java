@@ -146,14 +146,10 @@ public class UserDAOImpl extends GenericDAO implements UserDAO {
 		try {
 			logger.info("Login utente '" + userName + "'");
 			user = getByUsername(userName);
-			if (user == null) {
-				logger.warn("Utente non trovato");
-				throw new UsernameNotFoundException(userName);
-			} 
-//			else {
-//				user.setRoles(user.getRoles());
-//				logger.info("Trovato utente " + user);
-//			}
+//			if (user == null) {
+//				logger.warn("Utente non trovato");
+//				throw new UsernameNotFoundException(userName);
+//			} 
 		} catch (Exception e) {
 			logger.error("Error in loadUserByUsername: " + userName, e);
 		}

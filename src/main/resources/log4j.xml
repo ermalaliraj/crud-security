@@ -51,7 +51,7 @@
         <level value="WARN"/>
     </logger>
         <logger name="org.hibernate">
-        <level value="info"/>
+        <level value="warn"/>
     </logger>
     
     <root>

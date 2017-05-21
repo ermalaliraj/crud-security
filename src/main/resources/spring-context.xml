@@ -21,6 +21,8 @@
 	<context:component-scan base-package="com.ea" />
 	<context:annotation-config />
 	<mvc:annotation-driven />
+	<aop:aspectj-autoproxy/>
+	<!-- <aop:aspectj-autoproxy proxy-target-class="true" /> error cglib-->
 	
 	<bean id="dataSource" destroy-method="close" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="org.h2.Driver" />
